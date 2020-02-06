@@ -1,0 +1,23 @@
+{
+  "name": "papercall-rating-wrapper",
+  "version": "1.0.0",
+  "description": "* Off-platform manual redaction for submission content fields * Assigning proposals to certain reviewers * Hide previous ratings on a proposal * Rating aggregation to build stack-ranked list * Persisting review committee-only notes",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deniseyu/papercall-rating-wrapper.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/deniseyu/papercall-rating-wrapper/issues"
+  },
+  "homepage": "https://github.com/deniseyu/papercall-rating-wrapper#readme"
+}
