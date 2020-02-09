@@ -1,17 +1,15 @@
 var express = require('express');
 var router = express.Router();
-var redis
+var client
 
 // heroku readiness
 if (process.env.REDISTOGO_URL) {
   var rtg   = require("url").parse(process.env.REDISTOGO_URL);
-  redis = require("redis").createClient(rtg.port, rtg.hostname);
-  redis.auth(rtg.auth.split(":")[1]);
+  client = require("redis").createClient(rtg.port, rtg.hostname);
+  client.auth(rtg.auth.split(":")[1]);
 } else {
-  redis = require("redis");
+  client = require("redis").createClient();
 }
-
-var client = redis.createClient();
 
 client.on("error", function(error) {
   console.error(error);
