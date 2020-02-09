@@ -11,12 +11,12 @@ copy submission status back in :-(
 
 ### To dos
 
-- [ ] Connect up to a Redis server, configured with disk persistence (check
+- [x] Connect up to a Redis server, configured with disk persistence (check
   Heroku offering configs)
-- [ ] Write script to dump contents of JSON file into Redis
-- [ ] Display a Redis entry at `GET /proposals/:id`
-  - Show Title, Abstract, Long Description, Notes for Committee prominently;
-    hide everything else like travel support under JS pointy clicky fold
+- [x] Write script to dump contents of JSON file into Redis
+- [x] Display a Redis entry at `GET /proposals/:id`
+  - [x] Show Title, Abstract, Long Description, Notes for Committee prominently;
+  - [ ] Hide everything else like travel support under JS pointy clicky fold
 - [ ] Update a proposal's Title, Abstract, Long Description, or Notes For
   Committee at `POST /proposals/:id`
 - [ ] Display list of all proposals by title at `GET /proposals`
