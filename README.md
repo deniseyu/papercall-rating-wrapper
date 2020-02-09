@@ -57,3 +57,4 @@ copy submission status back in :-(
 * Users should only have one role type. We can create multiple user accounts and
   give people the credentials if they need to swap between Admin and Reviewer
 * Discard threshold and cut-off point should be configurable eventually
+* Set up Heroku Redis backups for every 1h during Feb 20-27
