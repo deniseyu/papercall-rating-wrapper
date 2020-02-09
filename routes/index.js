@@ -31,8 +31,10 @@ router.post('/seed/:number', function(req, res, next) {
 router.get('/proposals/:key', function(req, res, next) {
   var key = req.params.key
   client.get(key, function(err, reply) {
-
     var proposal = JSON.parse(reply)
+    if (reply === null) {
+      return res.send(`No proposal with ID ${key} exists!`)
+    }
 
     res.render('talk', {
       title: key,
