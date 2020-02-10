@@ -14,13 +14,6 @@ block content
   p Voted to discard: #{review.discard ? "yes" : "no"}
 
   div
-    a(href=`/proposals/${number}/edit`) Edit this review - TODO
+    a(href=`/proposals/${number}/review/${id}/edit`) Edit this review
   div
-    form(method='DELETE' action=`/proposals/${number}/review/${id}`)
-      input(name='blah' type='text')
-
-      div.hidden
-        input(name='name' type='hidden' value='whatever')
-
-      button(type='submit') Delete
-
+    a(href=`/proposals/${number}/reviews`) See other reviews for this talk

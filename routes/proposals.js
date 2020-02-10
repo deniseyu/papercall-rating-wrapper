@@ -57,7 +57,8 @@ router.post('/:key/review', loggedIn(), function(req, res) {
   // don't really care about review order; just that they can be named in
   // non-clashing way
   var randString = Math.random().toString(36).substring(7)
-  var reviewID = key + ':' + randString
+  var reviewID = req.body.reviewID || (key + ':' + randString)
+  req.body.reviewID = reviewID
   var review = req.body
 
   redis.set(reviewID, JSON.stringify(review), function(err, reply) {
@@ -72,6 +73,7 @@ router.post('/:key/review', loggedIn(), function(req, res) {
 router.get('/:key/review/:id', loggedIn(), function(req, res) {
   var reviewID = req.params.id
   var key = req.params.key
+
   redis.get(reviewID, function(err, reply) {
     res.render('review', {
       number: key,
@@ -81,12 +83,19 @@ router.get('/:key/review/:id', loggedIn(), function(req, res) {
   })
 })
 
-function getAverage(reviews) {
-  var total = reviews.map(r => parseInt(r.score))
-    .reduce((a,b) => a+b)
-  var avg = total / reviews.length
-  return avg.toFixed(2)
-}
+router.get('/:key/review/:id/edit', loggedIn(), function(req, res) {
+  var reviewID = req.params.id
+  var key = req.params.key
+
+  redis.get(reviewID, function(err, reply) {
+    res.render('edit-review', {
+      number: key,
+      review: JSON.parse(reply),
+      id: reviewID,
+      user: req.user
+    })
+  })
+})
 
 router.get('/:key/reviews', function(req, res) {
   var key = req.params.key
@@ -114,5 +123,13 @@ router.delete('/:key/review/:id', function(req, res) {
     res.json(reply)
   })
 })
+
+function getAverage(reviews) {
+  if (reviews.length == 0) { return 0 }
+  var total = reviews.map(r => parseInt(r.score))
+    .reduce((a,b) => a+b)
+  var avg = total / reviews.length
+  return avg.toFixed(2)
+}
 
 module.exports = router;
