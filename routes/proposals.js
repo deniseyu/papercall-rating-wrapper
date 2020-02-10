@@ -53,19 +53,21 @@ router.post('/:key', loggedIn(), function(req, res) {
 })
 
 router.post('/:key/review', loggedIn(), function(req, res) {
-  var key = req.params.key
+  var talkID = req.params.key
   // don't really care about review order; just that they can be named in
-  // non-clashing way
+  // probably non-clashing way
   var randString = Math.random().toString(36).substring(7)
-  var reviewID = req.body.reviewID || (key + ':' + randString)
+  var reviewID = req.body.reviewID || (talkID + ':' + randString)
   req.body.reviewID = reviewID
   var review = req.body
 
   redis.set(reviewID, JSON.stringify(review), function(err, reply) {
-    res.render('review', {
-      number: key,
-      review: review,
-      id: reviewID
+    redis.rpush(`complete:${req.user.username}`, talkID, function(err, reply) {
+      res.render('review', {
+        number: talkID,
+        review: review,
+        id: reviewID
+      })
     })
   })
 })

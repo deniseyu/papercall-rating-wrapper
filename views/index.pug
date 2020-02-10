@@ -3,11 +3,25 @@ extends layout
 block content
   h1 GoCon Talks from Papercall
   hl
-  h2 Talks assigned to me!
-  ul
-    each talk in mine
-      li
-        a(href=`/proposals/${talk.id}`) #{talk.title}
+  h2 Talks assigned to me
+  if mine.length == 0
+    p Nothing yet!
+  else
+    h3 Talks I must review
+    if pending.length == 0
+      p You've done all your homework! Hurrah!
+    else
+      ul
+        each talk in pending
+          li
+            a(href=`/proposals/${talk.id}`) #{talk.title}
+
+
+    h3 All my talks
+    ul
+      each talk in mine
+        li
+          a(href=`/proposals/${talk.id}`) #{talk.title}
   br
   p All talks:
   ul

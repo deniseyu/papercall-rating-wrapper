@@ -19,23 +19,30 @@ router.get('/', loggedIn(), function(req, res) {
           t.id = keys[ind]
           return t
         })
-        var talksResult = { all: talksCB, notMine: [], mine: [] }
+        var talksResult = { all: talksCB, pending: [], mine: [] }
         cb(null, talksResult)
       })
     }
 
     function isolateAssigned(talksResult, cb) {
-      redis.lrange(`assign:${req.user.username}`, 0, 1000, function(err, reply) {
-        var myTalkIDs = reply
+      redis.lrange(`assign:${req.user.username}`, 0, 1000, function(err, myTalkIDs) {
         talksResult.mine = talksResult.all.filter(talk => myTalkIDs.includes(talk.id))
         cb(null, talksResult)
       })
     }
 
-    var processTalks = async.compose(isolateAssigned, getTalks)
+    function pendingReview(talksResult, cb) {
+      redis.lrange(`complete:${req.user.username}`, 0, 1000, function(err, reply) {
+        talksResult.pending = talksResult.mine.filter(t => !reply.includes(t.id))
+        cb(null, talksResult)
+      })
+    }
+
+    var processTalks = async.compose(pendingReview, isolateAssigned, getTalks)
 
     processTalks(talkKeys, function(err, results) {
       res.render('index', {
+        pending: results.pending,
         mine: results.mine,
         talks: results.all,
         user: req.user
@@ -52,7 +59,7 @@ router.post('/assign/:user/:talkID', function(req, res) {
   })
 })
 
-router.get('/assign/:user', function(req, res) {
+router.post('/assign/:user', function(req, res) {
   var key = `assign:${req.params.user}`
   redis.lrange(key, 0, 100, function(err, reply) {
     res.json(reply)
