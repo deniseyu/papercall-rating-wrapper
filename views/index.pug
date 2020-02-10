@@ -3,8 +3,14 @@ extends layout
 block content
   h1 GoCon Talks from Papercall
   hl
-  p Talks:
+  h2 Talks assigned to me!
   ul
-    each num in numbers
+    each talk in mine
       li
-        a(href=`/proposals/${num}`) Talk ##{num}
+        a(href=`/proposals/${talk.id}`) #{talk.title}
+  br
+  p All talks:
+  ul
+    each talk in talks
+      li
+        a(href=`/proposals/${talk.id}`) #{talk.title}
