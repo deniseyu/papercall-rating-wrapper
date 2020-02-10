@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  .notification
+    if updated
+      h3 Updated proposal!
+
+  h1 All reviews for proposal ##{number}
+
+  h3 Average Review: #{average}
+
+  for rev in reviews
+    div
+      li Reviewer: #{rev.reviewer}
+      li Score: #{rev.score}
+      li Review: #{rev.review}
+      br
+
+

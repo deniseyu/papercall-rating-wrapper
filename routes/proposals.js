@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var passport = require('../config/passport');
 var redis = require('../config/redis');
+var async = require('async');
 
 var basicAuth = passport.authenticate('local', { failureRedirect: '/login'})
 var loggedIn = require('connect-ensure-login').ensureLoggedIn
@@ -80,8 +81,30 @@ router.get('/:key/review/:id', loggedIn(), function(req, res) {
   })
 })
 
-router.get('/:key/reviews', loggedIn(), function(req, res) {
+function getAverage(reviews) {
+  var total = reviews.map(r => parseInt(r.score))
+    .reduce((a,b) => a+b)
+  var avg = total / reviews.length
+  return avg.toFixed(2)
+}
 
+router.get('/:key/reviews', function(req, res) {
+  var key = req.params.key
+
+  redis.keys(`${key}:*`, function(err, reviewIDs) {
+    async.map(reviewIDs, function(id, cb) {
+      redis.get(id, function(err, review) {
+        cb(null, review)
+      })
+    }, function(err, results) {
+      var renderResults = results.map(r => JSON.parse(r))
+      res.render('list-reviews', {
+        number: key,
+        reviews: renderResults,
+        average: getAverage(renderResults)
+      })
+    })
+  })
 })
 
 router.delete('/:key/review/:id', function(req, res) {
