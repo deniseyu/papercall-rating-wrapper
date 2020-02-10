@@ -17,7 +17,9 @@ client.on("error", function(error) {
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Talk Proposals from Papercall' });
+  client.keys('*', function(err, keys) {
+    res.render('index', { numbers: keys });
+  })
 });
 
 router.post('/seed/:number', function(req, res, next) {

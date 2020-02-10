@@ -1,8 +1,10 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  h1 GoCon Talks from Papercall
   hl
-  p Body:
-  p #{body}
+  p Talks:
+  ul
+    each num in numbers
+      li
+        a(href=`/proposals/${num}`) Talk ##{num}
