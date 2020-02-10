@@ -41,6 +41,7 @@ copy submission status back in :-(
   (start with hard-coding to 2) 
 - [x] Display all reviews for a proposal at `GET /proposals/:id/reviews`
 - [ ] Add ability for Admin to assign proposals to certain Reviewers
+- [ ] Don't let the same person review a talk twice
 - [ ] A logged-in reviewer should see a visual separation at `GET /` so that proposals assigned to them 
       to review are at the top, and other proposals are below
 - [ ] Add visual separation between proposals that have been reviewed, and
@@ -62,3 +63,9 @@ copy submission status back in :-(
   give people the credentials if they need to swap between Admin and Reviewer
 * Discard threshold and cut-off point should be configurable eventually
 * Set up Heroku Redis backups for every 1h during Feb 20-27
+
+
+#### Stuff I should probably do later
+
+* Change Redis data model from string to hash for proposals and reviews
+* Memoize expensive Redis queries
