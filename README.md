@@ -26,18 +26,18 @@ copy submission status back in :-(
 - [x] Set up basic auth for Admin ~and Reviewer~ user types; everyone has same
   privileges for MVP
 - [x] Add auth checks to all existing endpoints
-- [ ] Create Review model:
+- [x] Create Review model:
     - Reviewer
     - Proposal
     - Rating (1-5)
     - Discard (Bool)
     - Internal Notes (string)
-- [ ] Add ability to add a review, at `POST /proposals/:id/review`
-- [ ] Persist reviews in Redis only
+- [x] Add ability to add a review, at `POST /proposals/:id/review`
+- [x] Persist reviews in Redis only
+- [ ] Compute running average on a Proposal, add to Proposal model, update every time a Review is added/updated/deleted
 - [ ] Mark a proposal as `Rejected` if it receives N number of `Discard` votes
   (start with hard-coding to 2) 
-- [ ] Display all reviews for a proposal at `GET /proposals/:id` but hide
-  reviews by default under a JS clicky foldy thing
+- [x] Display all reviews for a proposal at `GET /proposals/:id/reviews`
 - [ ] Add ability for Admin to assign proposals to certain Reviewers
 - [ ] Add dashboard endpoint for a reviewer, `GET /dashboard` which displays
   only proposals assigned to that logged-in reviewer
