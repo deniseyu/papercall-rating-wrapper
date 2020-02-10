@@ -1,6 +1,12 @@
 var passport = require('passport');
 var localStrategy = require('passport-local').Strategy;
-var users = process.env.users || require('../users.json')
+
+var users
+if (process.env.users) {
+  users = JSON.parse(process.env.users)
+} else {
+  users = require('../users.json')
+}
 
 passport.use(new localStrategy(
   function(username, password, done) {
