@@ -22,14 +22,11 @@ passport.use(new localStrategy(
 ))
 
 passport.serializeUser(function(user, cb) {
-  console.log('serialized user ====', user)
   cb(null, user.id);
 });
 
 passport.deserializeUser(function(id, cb) {
-  console.log(id)
   var user = users.find(user => user.id == id)
-  console.log('deserializing user ====', user)
   if (user == null) { return cb(err); }
   cb(null, user)
 });

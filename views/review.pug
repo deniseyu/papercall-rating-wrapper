@@ -1,0 +1,26 @@
+extends layout
+
+block content
+  .notification
+    if updated
+      h3 Updated review!
+
+  h1 Review for Proposal ##{number}
+
+  p Written by: #{review.reviewer}
+  p Score: #{review.score}
+  p Review: #{review.review}
+
+  p Voted to discard: #{review.discard ? "yes" : "no"}
+
+  div
+    a(href=`/proposals/${number}/edit`) Edit this review - TODO
+  div
+    form(method='DELETE' action=`/proposals/${number}/review/${id}`)
+      input(name='blah' type='text')
+
+      div.hidden
+        input(name='name' type='hidden' value='whatever')
+
+      button(type='submit') Delete
+
