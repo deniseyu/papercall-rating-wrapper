@@ -35,9 +35,9 @@ copy submission status back in :-(
 - [x] Add ability to add a review, at `POST /proposals/:id/review`
 - [x] Persist reviews in Redis only
 - [ ] ~Compute running average on a Proposal, add to Proposal model, update every time a Review is added/updated/deleted~ Descoping this, because it's easier and more maintainable to write a query than to maintain a running average
-- [ ] Edit a review
+- [x] Edit a review
 - [ ] Delete a review
-- [ ] Mark a proposal as `Rejected` if it receives N number of `Discard` votes
+- [ ] ~Mark a proposal as `Rejected` if it receives N number of `Discard` votes~ Going to descope for now; a low average rating is sufficient to show rejection, for MVP
   (start with hard-coding to 2) 
 - [x] Display all reviews for a proposal at `GET /proposals/:id/reviews`
 - [ ] Add ability for Admin to assign proposals to certain Reviewers
