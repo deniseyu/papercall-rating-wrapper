@@ -17,7 +17,7 @@ client.on("error", function(error) {
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: 'Talk Proposals from Papercall' });
 });
 
 router.post('/seed/:number', function(req, res, next) {
@@ -37,12 +37,37 @@ router.get('/proposals/:key', function(req, res, next) {
     }
 
     res.render('talk', {
-      title: key,
-      abstract: proposal.abstract,
-      desc: proposal.description,
-      notes: proposal.notes
+      number: key,
+      proposal: proposal
     });
   });
+})
+
+router.get('/proposals/:key/edit', function(req, res, next) {
+  var key = req.params.key
+  client.get(key, function(err, reply) {
+    var proposal = JSON.parse(reply)
+    if (reply === null) {
+      return res.send(`No proposal with ID ${key} exists!`)
+    }
+
+    res.render('update', {
+      number: key,
+      proposal: proposal
+    });
+  });
+})
+
+router.post('/proposals/:key', function(req, res, next) {
+    var key = req.params.key
+    var val = JSON.stringify(req.body)
+    client.set(key, val, function(err, reply) {
+      res.render('talk', {
+        number: key,
+        proposal: req.body,
+        updated: true
+      })
+    })
 })
 
 module.exports = router;

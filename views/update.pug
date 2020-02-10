@@ -1,0 +1,38 @@
+extends layout
+
+block content
+  h1 Proposal ##{number}
+  p Edit this proposal
+
+  form(method='POST' action=`/proposals/${number}`)
+    div
+      label(for='title') Title:
+      input#title(name='title', type='text', value=`${proposal.title}`)
+    div
+      label(for='abstract') Abstract:
+      textarea#abstract(name='abstract') #{proposal.abstract}
+    div
+      label(for='description') Description:
+      textarea#description(name='description') #{proposal.description}
+    div
+      label(for='notes') Notes for Committee:
+      textarea#notes(name='notes') #{proposal.notes}
+
+    div.hidden
+      input(name='name' type='hidden' value=`${proposal.name}`)
+      input(name='email' type='hidden' value=`${proposal.email}`)
+      input(name='avatar' type='hidden' value=`${proposal.avatar}`)
+      input(name='location' type='hidden' value=`${proposal.location}`)
+      input(name='bio' type='hidden' value=`${proposal.bio}`)
+      input(name='twitter' type='hidden' value=`${proposal.twitter}`)
+      input(name='url' type='hidden' value=`${proposal.url}`)
+      input(name='organization' type='hidden' value=`${proposal.organization}`)
+      input(name='talk_format' type='hidden' value=`${proposal.talk_format}`)
+      input(name='audience_level' type='hidden' value=`${proposal.audience_level}`)
+      input(name='tags' type='hidden' value=`${proposal.tags}`)
+      input(name='created_at' type='hidden' value=`${proposal.created_at}`)
+      input(name='edited_at' type='hidden' value=`${Date.now()}`)
+      input(name='additional_info' type='hidden' value=`${proposal.additional_info}`)
+
+    button(type='submit') Update
+

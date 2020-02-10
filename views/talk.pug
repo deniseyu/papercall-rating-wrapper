@@ -1,8 +1,12 @@
 extends layout
 
 block content
-  h1= proposal_no
-  p Title: #{title}
-  p Abstract: #{abstract}
-  p Description: #{desc}
-  p Notes: #{notes}
+  .notification
+    if updated
+      h3 Updated proposal!
+
+  h1 Proposal ##{number}
+  p Title: #{proposal.title}
+  p Abstract: #{proposal.abstract}
+  p Description: #{proposal.description}
+  p Notes: #{proposal.notes}
