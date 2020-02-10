@@ -62,3 +62,9 @@ copy submission status back in :-(
   give people the credentials if they need to swap between Admin and Reviewer
 * Discard threshold and cut-off point should be configurable eventually
 * Set up Heroku Redis backups for every 1h during Feb 20-27
+
+
+#### Stuff I should probably do later
+
+* Change Redis data model from string to hash for proposals and reviews
+* Memoize expensive Redis queries
