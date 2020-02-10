@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
+var passport = require('../config/passport');
 var client
+var basicAuth = passport.authenticate('local', { failureRedirect: '/login'})
+var loggedIn = require('connect-ensure-login').ensureLoggedIn
 
 // heroku readiness
 if (process.env.REDISTOGO_URL) {
@@ -15,14 +18,32 @@ client.on("error", function(error) {
   console.error(error);
 });
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', loggedIn(), function(req, res, next) {
   client.keys('*', function(err, keys) {
-    res.render('index', { numbers: keys });
+    res.render('index', { numbers: keys, user: req.user });
   })
 });
 
-router.post('/seed/:number', function(req, res, next) {
+router.get('/login', function(req, res) {
+  res.render('login')
+})
+
+router.get('/logout', function(req, res) {
+  req.logout();
+  res.redirect('/');
+})
+
+router.get('/success',
+  require('connect-ensure-login').ensureLoggedIn(),
+  function(req, res){
+    res.send('login successful. Click <a href="/">here</a> to go home')
+})
+
+router.post('/login', basicAuth, function(req, res) {
+  res.redirect('/success');
+})
+
+router.post('/seed/:number', loggedIn(), function(req, res, next) {
   var key = req.params.number
   var val = JSON.stringify(req.body)
   client.set(key, val, function(err, reply) {
@@ -30,7 +51,7 @@ router.post('/seed/:number', function(req, res, next) {
   })
 });
 
-router.get('/proposals/:key', function(req, res, next) {
+router.get('/proposals/:key', loggedIn(), function(req, res, next) {
   var key = req.params.key
   client.get(key, function(err, reply) {
     var proposal = JSON.parse(reply)
@@ -40,7 +61,8 @@ router.get('/proposals/:key', function(req, res, next) {
 
     res.render('talk', {
       number: key,
-      proposal: proposal
+      proposal: proposal,
+      user: req.user
     });
   });
 })
@@ -55,7 +77,8 @@ router.get('/proposals/:key/edit', function(req, res, next) {
 
     res.render('update', {
       number: key,
-      proposal: proposal
+      proposal: proposal,
+      user: req.user
     });
   });
 })
@@ -67,7 +90,8 @@ router.post('/proposals/:key', function(req, res, next) {
       res.render('talk', {
         number: key,
         proposal: req.body,
-        updated: true
+        updated: true,
+        user: req.user
       })
     })
 })
