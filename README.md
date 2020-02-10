@@ -22,9 +22,10 @@ copy submission status back in :-(
 - [x] Display list of all proposals by title at `GET /proposals`
 - [ ] Indicate that a proposal has been modified with a `*` appended to its
   title at `GET /proposals` -- descope if too annoying
-- [ ] Find a Node library to handle user authentication
-- [ ] Set up basic auth for Admin and Reviewer user types
-- [ ] Add auth checks to all existing endpoints
+- [x] Find a Node library to handle user authentication -- (Ended up choosing Passport)
+- [x] Set up basic auth for Admin ~and Reviewer~ user types; everyone has same
+  privileges for MVP
+- [x] Add auth checks to all existing endpoints
 - [ ] Create Review model:
     - Reviewer
     - Proposal
