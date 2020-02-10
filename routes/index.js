@@ -15,11 +15,13 @@ router.get('/', loggedIn(), function(req, res) {
 
     function getTalks(keys, cb) {
       redis.mget(keys, function(err, talks) {
+        var talksResult = { all: [], pending: [], mine: [] }
+        if (talks == null || talks.length == 0) { return cb(null, talksResult) }
         var talksCB = talks.map(t => JSON.parse(t)).map((t, ind) => {
           t.id = keys[ind]
           return t
         })
-        var talksResult = { all: talksCB, pending: [], mine: [] }
+        talksResult.all = talksCB
         cb(null, talksResult)
       })
     }
@@ -90,5 +92,15 @@ router.post('/seed/:number', function(req, res) {
     res.send(reply)
   })
 });
+
+router.delete('/all', function(req, res) {
+  // if (process.env.NODE_ENV == 'development') {
+    redis.flushall(function(err, reply) {
+      res.send('Deleted everything')
+    })
+  // } else {
+  //   res.send('This endpoint is development-only. Use Redis console to edit production data')
+  // }
+})
 
 module.exports = router;

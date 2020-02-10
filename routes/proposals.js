@@ -126,6 +126,12 @@ router.delete('/:key/review/:id', function(req, res) {
   })
 })
 
+router.delete('/:key', loggedIn(), function(req, res) {
+  redis.del(req.params.key, function(err, reply) {
+    res.json(reply)
+  })
+})
+
 function getAverage(reviews) {
   if (reviews.length == 0) { return 0 }
   var total = reviews.map(r => parseInt(r.score))
