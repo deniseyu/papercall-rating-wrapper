@@ -34,7 +34,7 @@ copy submission status back in :-(
     - Internal Notes (string)
 - [x] Add ability to add a review, at `POST /proposals/:id/review`
 - [x] Persist reviews in Redis only
-- [ ] Compute running average on a Proposal, add to Proposal model, update every time a Review is added/updated/deleted
+- [ ] ~Compute running average on a Proposal, add to Proposal model, update every time a Review is added/updated/deleted~ Descoping this, because it's easier and more maintainable to write a query than to maintain a running average
 - [ ] Mark a proposal as `Rejected` if it receives N number of `Discard` votes
   (start with hard-coding to 2) 
 - [x] Display all reviews for a proposal at `GET /proposals/:id/reviews`
