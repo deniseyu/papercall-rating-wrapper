@@ -17,9 +17,9 @@ copy submission status back in :-(
 - [x] Display a Redis entry at `GET /proposals/:id`
   - [x] Show Title, Abstract, Long Description, Notes for Committee prominently;
   - [ ] Hide everything else like travel support under JS pointy clicky fold
-- [ ] Update a proposal's Title, Abstract, Long Description, or Notes For
+- [x] Update a proposal's Title, Abstract, Long Description, or Notes For
   Committee at `POST /proposals/:id`
-- [ ] Display list of all proposals by title at `GET /proposals`
+- [x] Display list of all proposals by title at `GET /proposals`
 - [ ] Indicate that a proposal has been modified with a `*` appended to its
   title at `GET /proposals` -- descope if too annoying
 - [ ] Find a Node library to handle user authentication
