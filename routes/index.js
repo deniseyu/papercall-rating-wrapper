@@ -29,6 +29,7 @@ router.get('/', loggedIn(), function(req, res) {
     function isolateAssigned(talksResult, cb) {
       redis.lrange(`assign:${req.user.username}`, 0, 1000, function(err, myTalkIDs) {
         talksResult.mine = talksResult.all.filter(talk => myTalkIDs.includes(talk.id))
+        talksResult.notMine = talksResult.all.filter(talk => !myTalkIDs.includes(talk.id))
         cb(null, talksResult)
       })
     }
@@ -48,7 +49,7 @@ router.get('/', loggedIn(), function(req, res) {
         pending: results.pending,
         mine: results.mine,
         completed: results.completed,
-        talks: results.all,
+        others: results.notMine,
         user: req.user
       })
     })

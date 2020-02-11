@@ -2,12 +2,10 @@ extends layout
 
 block content
   h1 GoCon Talks from Papercall
-  hl
-  h2 Talks assigned to me
+  h3 Talks I need to review
   if mine.length == 0
     p Nothing yet!
   else
-    h3 Talks I must review
     if pending.length == 0
       p You've done all your homework! Hurrah!
     else
@@ -20,15 +18,16 @@ block content
 
   br
   h3 Talks I have reviewed
-  p Total: #{completed.length}
+  p Completed: #{completed.length}
+  i Note: Talks you review, that aren't assigned to you, won't show up here
   ul
     each talk in completed
       li
         a(href=`/proposals/${talk.id}`) [##{talk.id}] #{talk.title}
   br
-  h3 All talks:
-  p Total submissions: #{talks.length}
+  h3 Other talks:
+  p Total submissions: #{others.length}
   ul
-    each talk in talks
+    each talk in others
       li
         a(href=`/proposals/${talk.id}`) [##{talk.id}] #{talk.title}
