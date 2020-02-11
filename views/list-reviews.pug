@@ -5,17 +5,27 @@ block content
     if updated
       h3 Updated proposal!
 
-  h1 All reviews for proposal ##{number}
-
-  h3 Average Review: #{average}
+  div.bg-white.shadow-lg.rounded.p-6.mb-6.pb-12
+    span.float-left
+      h1.text-xl All Reviews for Proposal ##{number}
+    span.float-right Average Review: #{average}
 
   for rev in reviews
-    div
-      li Reviewer: #{rev.reviewer}
-      li Score: #{rev.score}
-      li Review: #{rev.review}
-      li
-        a(href=`/proposals/${number}/review/${rev.reviewID}/edit`) Edit
-      br
-
+    div.bg-white.shadow-lg.rounded.p-6.mb-6
+      div.grid.grid-cols-6
+        div.col-span-1 Written by
+        div.col-span-5 #{rev.reviewer}
+      div.grid.grid-cols-6
+        div.col-span-1 Score
+        div.col-span-5 #{rev.score}
+      div.grid.grid-cols-6
+        div.col-span-1 Review
+        div.col-span-5 #{rev.review}
+      div.grid.grid-cols-6
+        div.col-span-1 Voted to discard?
+        div.col-span-5 #{rev.discard ? "Yes" : "No"}
+      div.grid.grid-cols-6
+        div.col-span-5
+        div.col-span-1.text-right
+          a.text-blue-500(class="hover:text-red-500 active:text-red-500" href=`/proposals/${number}/review/${rev.reviewID}`) Show
 

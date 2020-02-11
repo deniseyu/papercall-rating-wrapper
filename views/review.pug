@@ -11,11 +11,18 @@ block content
 
   div.bg-white.shadow-lg.rounded.p-6.mb-6
     h1.text-xl Review for Proposal ##{number}
-    p Written by: #{review.reviewer}
-    p Score: #{review.score}
-    p Review: #{review.review}
-
-    p Voted to discard: #{review.discard ? "yes" : "no"}
+    div.grid.grid-cols-6
+      div.col-span-1 Written by
+      div.col-span-5 #{review.reviewer}
+    div.grid.grid-cols-6
+      div.col-span-1 Score
+      div.col-span-5 #{review.score}
+    div.grid.grid-cols-6
+      div.col-span-1 Review
+      div.col-span-5 #{review.review}
+    div.grid.grid-cols-6
+      div.col-span-1 Voted to discard?
+      div.col-span-5 #{review.discard ? "Yes" : "No"}
 
     div.mt-3.pb-4
       div.float-left
