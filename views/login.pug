@@ -1,9 +1,10 @@
 extends layout
 
 block content
-  .notification
-    if error
-      h3 #{error}
+  div.notification
+    if message
+      div.bg-red-100.border-red-400.text-red-700.px-4.py-3.rounded.relative.mb-2
+        h3= message
 
   div.bg-white.shadow-lg.rounded.p-6.m-auto.text-center(class="w-1/2")
     form(method='POST' action=`/login`)
