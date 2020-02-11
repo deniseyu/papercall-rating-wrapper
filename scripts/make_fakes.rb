@@ -6,6 +6,13 @@ output_file = ENV['OUTPUT'] || 'submissions.json'
 def generate_title
   [
     "Life on #{Faker::Movies::StarWars.planet}",
+    "#{(1..10).to_a.sample} Reasons to Visit #{Faker::Games::Zelda.location}",
+    "Playing #{Faker::Games::Zelda.game} in 2020",
+    "The Best #{Faker::Food.dish} in #{Faker::Games::Pokemon.location}",
+    "Training #{Faker::Games::Pokemon.name} For Battle Readiness",
+    "Optimal Strategy for #{Faker::Games::SuperSmashBros.fighter}",
+    "#{Faker::Games::Pokemon.move} Demystified",
+    "#{Faker::Movies::PrincessBride.character}'s Guide to Systems Design",
     "How to Think Like a #{Faker::Movies::StarWars.specie}",
     "The World According to #{Faker::Movies::StarWars.character}",
     "Learn to Hack Your #{Faker::Movies::StarWars.droid}",
