@@ -36,6 +36,7 @@ router.get('/', loggedIn(), function(req, res) {
     function pendingReview(talksResult, cb) {
       redis.lrange(`complete:${req.user.username}`, 0, 1000, function(err, reply) {
         talksResult.pending = talksResult.mine.filter(t => !reply.includes(t.id))
+        talksResult.completed = talksResult.mine.filter(t => reply.includes(t.id))
         cb(null, talksResult)
       })
     }
@@ -46,6 +47,7 @@ router.get('/', loggedIn(), function(req, res) {
       res.render('index', {
         pending: results.pending,
         mine: results.mine,
+        completed: results.completed,
         talks: results.all,
         user: req.user
       })

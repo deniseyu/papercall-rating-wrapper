@@ -41,12 +41,13 @@ copy submission status back in :-(
   (start with hard-coding to 2) 
 - [x] Display all reviews for a proposal at `GET /proposals/:id/reviews`
 - [x] Add ability for Admin to assign proposals to certain Reviewers
-- [ ] Don't let the same person review a talk twice
-- [ ] A logged-in reviewer should see a visual separation at `GET /` so that proposals assigned to them 
+- [x] Don't let the same person review a talk twice
+- [x] A logged-in reviewer should see a visual separation at `GET /` so that proposals assigned to them 
       to review are at the top, and other proposals are below
-- [ ] Add visual separation between proposals that have been reviewed, and
+- [x] Add visual separation between proposals that have been reviewed, and
   proposals pending review, on `GET /`
-- [ ] Randomize the order in which assigned reviews show up on the dashboard
+- [x] ~Randomize the order in which assigned reviews show up on the dashboard~
+  Redis fetching is weird and random enough
 - [ ] Build an Admin view of the state of all proposals:
     - Completely rated proposals ordered from highest to lowest average score
     - Discarded proposals visually separated

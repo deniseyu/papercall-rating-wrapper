@@ -19,15 +19,16 @@ block content
 
 
   br
-  h3 All my talks
+  h3 Talks I have reviewed
+  p Total: #{completed.length}
   ul
-    each talk in mine
+    each talk in completed
       li
         a(href=`/proposals/${talk.id}`) [##{talk.id}] #{talk.title}
   br
   h3 All talks:
+  p Total submissions: #{talks.length}
   ul
-    p Total submissions: #{talks.length}
     each talk in talks
       li
         a(href=`/proposals/${talk.id}`) [##{talk.id}] #{talk.title}
