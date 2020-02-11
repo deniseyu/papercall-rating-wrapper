@@ -63,7 +63,6 @@ router.post('/:key/review', loggedIn(), function(req, res) {
 
   // prevent duplicate reviews
   redis.lrange(`complete:${req.user.username}`, 0, 1000, function(err, rep) {
-    console.log('update? ==', req.body.update)
     if (rep.includes(talkID) && !req.body.update) {
       return res.render('review', {
         number: talkID,

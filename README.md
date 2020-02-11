@@ -56,6 +56,7 @@ copy submission status back in :-(
       ("Controversial"?)
     - Dotted line to show cut-off point for top N proposals (start with
       hard-coding 25)
+- [ ] Add validation for required fields for reviews
 - [ ] Do some CSS...
 
 #### MVP notes
