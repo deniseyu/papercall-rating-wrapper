@@ -10,25 +10,26 @@ var loggedIn = require('connect-ensure-login').ensureLoggedIn
 // running redis.keys is risky for memory, and set of talks unlikely to change
 var memoizedKeys // so let's cache it in application memory
 
-router.get('/', loggedIn(), function(req, res) {
-  function getAllKeys(matcher, cb) {
-    if (memoizedKeys) {
-      console.log('using keys from mem')
-      return cb(null, memoizedKeys)
-    }
-    redis.keys(matcher, function(err, results) {
-      console.log('pulling from redis')
-      memoizedKeys = results.filter(key => !key.includes(':')) // for now ':' denotes a rating
-      cb(null, memoizedKeys)
-    })
+function getAllKeys(matcher, cb) {
+  if (memoizedKeys) {
+    return cb(null, memoizedKeys)
   }
 
+  redis.keys(matcher, function(err, results) {
+    memoizedKeys = results
+    cb(null, memoizedKeys)
+  })
+}
+
+router.get('/', loggedIn(), function(req, res) {
   function getTalks(keys, cb) {
-    redis.mget(keys, function(err, talks) {
+    var talkKeys = keys.filter(key => !key.includes(':')) // for now ':' denotes a rating
+    redis.mget(talkKeys, function(err, talks) {
       var talksResult = { all: [], pending: [], mine: [] }
       if (talks == null || talks.length == 0) { return cb(null, talksResult) }
+
       var talksCB = talks.map(t => JSON.parse(t)).map((t, ind) => {
-        t.id = keys[ind]
+        t.id = talkKeys[ind]
         return t
       })
       talksResult.all = talksCB
