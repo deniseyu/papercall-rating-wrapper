@@ -69,7 +69,8 @@ router.post('/:key/review', loggedIn(), function(req, res) {
         number: talkID,
         review: review,
         id: reviewID,
-        message: 'You have already reviewed this talk!'
+        message: 'You have already reviewed this talk!',
+        user: req.user
       })
     }
 
@@ -79,7 +80,8 @@ router.post('/:key/review', loggedIn(), function(req, res) {
           number: talkID,
           review: review,
           id: reviewID,
-          updated: req.body.update
+          updated: req.body.update,
+          user: req.user
         })
       })
     })
@@ -94,7 +96,8 @@ router.get('/:key/review/:id', loggedIn(), function(req, res) {
     res.render('review', {
       number: key,
       review: JSON.parse(reply),
-      id: reviewID
+      id: reviewID,
+      user: req.user
     })
   })
 })
@@ -113,7 +116,7 @@ router.get('/:key/review/:id/edit', loggedIn(), function(req, res) {
   })
 })
 
-router.get('/:key/reviews', function(req, res) {
+router.get('/:key/reviews', loggedIn(), function(req, res) {
   var key = req.params.key
 
   redis.keys(`${key}:*`, function(err, reviewIDs) {
@@ -126,7 +129,8 @@ router.get('/:key/reviews', function(req, res) {
       res.render('list-reviews', {
         number: key,
         reviews: renderResults,
-        average: getAverage(renderResults)
+        average: getAverage(renderResults),
+        user: req.user
       })
     })
   })
