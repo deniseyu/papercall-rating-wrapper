@@ -2,17 +2,17 @@ doctype html
 html
   head
     title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
-  body
-    nav
-      div
-        a(href='/') home
-      div
-        a(href='/login') login
-      div
-        a(href='/logout') logout
-
-    if user
-      h3 welcome #{user.username}!
-
-    block content
+    link(rel='stylesheet', href='/stylesheets/output.css')
+  body.bg-gray-300
+    div.w-screen.p-4.box-border.bg-blue-800.h-16
+      div.float-left.text-2xl.text-white.font-bold.leading-tight
+        a(href='/') GoCon Proposals 2020
+      if user
+        div.mx-3.float-right
+          a.text-blue-500(class="hover:text-red-500" href='/logout') logout
+        div.text-white.mx-3.float-right welcome #{user.username}!
+      else
+        div.mx-3.float-right
+          a.text-blue-500(href='/login') login
+    div.p-8
+      block content

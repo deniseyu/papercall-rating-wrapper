@@ -1,33 +1,39 @@
 extends layout
 
 block content
-  h1 GoCon Talks from Papercall
-  h3 Talks I need to review
-  if mine.length == 0
-    p Nothing yet!
-  else
-    if pending.length == 0
-      p You've done all your homework! Hurrah!
-    else
-      p Remaining: #{pending.length}
+  div.grid.grid-cols-2.container.mx-auto.px-4.gap-4
+    div.bg-white.shadow-lg.rounded.p-6
+      div.h-16
+        h3.float-left Talks I need to review
+        span.mr-6.float-right Remaining: #{pending.length}
+      div.float-left
+        if mine.length == 0
+          p Nothing yet!
+        else
+          if pending.length == 0
+            p You've done all your homework! Hurrah!
+          else
+            ul
+              each talk in pending
+                li
+                  a.text-blue-500(class="hover:text-red-500 active:text-red-500" href=`/proposals/${talk.id}`) [##{talk.id}] #{talk.title}
+    div.bg-white.shadow-lg.rounded.p-6
+      div.h-16
+        h3.float-left Talks I have reviewed
+        span.float-right.mr-6 Completed: #{completed.length}
+        i.float-left.text-sm Note: Talks you review, that aren't assigned to you, won't show up here
+      div.float-left
+        ul
+          each talk in completed
+            li
+              a.text-blue-500(href=`/proposals/${talk.id}` class="hover:text-red-500 active:text-red-500") [##{talk.id}] #{talk.title}
+  div.container.mx-auto.px-4.mt-10.grid.grid-cols-1
+    div.bg-white.shadow-lg.rounded.p-6
+      div.h-16
+        h3.float-left Other talks:
+        p.float-right.mr-6 Total: #{others.length}
+      div.float-left
       ul
-        each talk in pending
+        each talk in others
           li
-            a(href=`/proposals/${talk.id}`) [##{talk.id}] #{talk.title}
-
-
-  br
-  h3 Talks I have reviewed
-  p Completed: #{completed.length}
-  i Note: Talks you review, that aren't assigned to you, won't show up here
-  ul
-    each talk in completed
-      li
-        a(href=`/proposals/${talk.id}`) [##{talk.id}] #{talk.title}
-  br
-  h3 Other talks:
-  p Total submissions: #{others.length}
-  ul
-    each talk in others
-      li
-        a(href=`/proposals/${talk.id}`) [##{talk.id}] #{talk.title}
+            a.text-blue-500(href=`/proposals/${talk.id}` class="hover:text-red-500 active:text-red-500") [##{talk.id}] #{talk.title}

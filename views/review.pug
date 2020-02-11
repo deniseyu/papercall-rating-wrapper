@@ -1,21 +1,24 @@
 extends layout
 
 block content
-  .notification
+  div.notification
     if updated
-      h3 Updated review!
+      div.bg-red-100.border-red-400.text-red-700.px-4.py-3.rounded.relative.mb-2
+        h3 Updated review!
     if message
-      h3= message
+      div.bg-red-100.border-red-400.text-red-700.px-4.py-3.rounded.relative.mb-2
+        h3= message
 
-  h1 Review for Proposal ##{number}
+  div.bg-white.shadow-lg.rounded.p-6.mb-6
+    h1.text-xl Review for Proposal ##{number}
+    p Written by: #{review.reviewer}
+    p Score: #{review.score}
+    p Review: #{review.review}
 
-  p Written by: #{review.reviewer}
-  p Score: #{review.score}
-  p Review: #{review.review}
+    p Voted to discard: #{review.discard ? "yes" : "no"}
 
-  p Voted to discard: #{review.discard ? "yes" : "no"}
-
-  div
-    a(href=`/proposals/${number}/review/${id}/edit`) Edit this review
-  div
-    a(href=`/proposals/${number}/reviews`) See other reviews for this talk
+    div.mt-3.pb-4
+      div.float-left
+        a.text-blue-500(class="hover:text-red-500 active:text-red-500" href=`/proposals/${number}/review/${id}/edit`) Edit this review
+      div.float-right
+        a.text-blue-500(class="hover:text-red-500 active:text-red-500" href=`/proposals/${number}/reviews`) See other reviews for this talk

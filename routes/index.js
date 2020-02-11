@@ -81,7 +81,7 @@ router.get('/logout', function(req, res) {
 })
 
 router.get('/success', loggedIn(), function(req, res){
-    res.send('login successful. Click <a href="/">here</a> to go home')
+  res.redirect('/');
 })
 
 router.post('/login', basicAuth, function(req, res) {

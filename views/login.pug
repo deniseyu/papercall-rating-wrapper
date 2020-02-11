@@ -5,12 +5,13 @@ block content
     if error
       h3 #{error}
 
-  form(method='POST' action=`/login`)
-    div
-      label(for='username') Username:
-      input#title(name='username', type='text')
-    div
-      label(for='password') Password:
-      input#title(name='password', type='text')
-    button(type='submit') Login
-
+  div.bg-white.shadow-lg.rounded.p-6.m-auto.text-center(class="w-1/2")
+    form(method='POST' action=`/login`)
+      div.mb-2
+        label.w-20.inline-block.mr-3(for='username') Username
+        input.p-1.w-64.border#title(name='username', type='text')
+      div.mb-2
+        label.w-20.inline-block.mr-3(for='password') Password
+        input.p-1.w-64.border#title(name='password', type='password')
+      div.mt-4
+        button.bg-blue-500.text-white.font-bold.py-2.px-4.rounded(class="hover:bg-blue-700" type='submit') Login
