@@ -11,20 +11,23 @@ block content
     if pending.length == 0
       p You've done all your homework! Hurrah!
     else
+      p Remaining: #{pending.length}
       ul
         each talk in pending
           li
-            a(href=`/proposals/${talk.id}`) #{talk.title}
+            a(href=`/proposals/${talk.id}`) [##{talk.id}] #{talk.title}
 
 
-    h3 All my talks
-    ul
-      each talk in mine
-        li
-          a(href=`/proposals/${talk.id}`) #{talk.title}
   br
-  p All talks:
+  h3 All my talks
   ul
+    each talk in mine
+      li
+        a(href=`/proposals/${talk.id}`) [##{talk.id}] #{talk.title}
+  br
+  h3 All talks:
+  ul
+    p Total submissions: #{talks.length}
     each talk in talks
       li
-        a(href=`/proposals/${talk.id}`) #{talk.title}
+        a(href=`/proposals/${talk.id}`) [##{talk.id}] #{talk.title}

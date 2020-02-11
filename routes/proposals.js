@@ -61,12 +61,26 @@ router.post('/:key/review', loggedIn(), function(req, res) {
   req.body.reviewID = reviewID
   var review = req.body
 
-  redis.set(reviewID, JSON.stringify(review), function(err, reply) {
-    redis.rpush(`complete:${req.user.username}`, talkID, function(err, reply) {
-      res.render('review', {
+  // prevent duplicate reviews
+  redis.lrange(`complete:${req.user.username}`, 0, 1000, function(err, rep) {
+    console.log('update? ==', req.body.update)
+    if (rep.includes(talkID) && !req.body.update) {
+      return res.render('review', {
         number: talkID,
         review: review,
-        id: reviewID
+        id: reviewID,
+        message: 'You have already reviewed this talk!'
+      })
+    }
+
+    redis.set(reviewID, JSON.stringify(review), function(err, reply) {
+      redis.rpush(`complete:${req.user.username}`, talkID, function(err, reply) {
+        res.render('review', {
+          number: talkID,
+          review: review,
+          id: reviewID,
+          updated: req.body.update
+        })
       })
     })
   })
