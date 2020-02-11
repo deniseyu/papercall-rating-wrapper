@@ -94,13 +94,13 @@ router.post('/seed/:number', function(req, res) {
 });
 
 router.delete('/all', function(req, res) {
-  // if (process.env.NODE_ENV == 'development') {
+  if (process.env.NODE_ENV == 'development') {
     redis.flushall(function(err, reply) {
       res.send('Deleted everything')
     })
-  // } else {
-  //   res.send('This endpoint is development-only. Use Redis console to edit production data')
-  // }
+  } else {
+    res.send('This endpoint is development-only. Use Redis console to edit production data')
+  }
 })
 
 module.exports = router;
