@@ -10,6 +10,8 @@ html
       if user
         div.mx-3.float-right
           a.text-blue-500(class="hover:text-red-500" href='/logout') logout
+        div.mx-3.float-right
+          a.text-blue-500(class="hover:text-red-500" href='/rankings') Rankings
         div.text-white.mx-3.float-right welcome #{user.username}!
       else
         div.mx-3.float-right
