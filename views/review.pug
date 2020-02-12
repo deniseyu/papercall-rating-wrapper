@@ -25,7 +25,8 @@ block content
       div.col-span-5 #{review.discard ? "Yes" : "No"}
 
     div.mt-3.pb-4
-      div.float-left
-        a.text-blue-500(class="hover:text-red-500 active:text-red-500" href=`/proposals/${number}/review/${id}/edit`) Edit this review
+      if review.reviewer == user.username
+        div.float-left
+          a.text-blue-500(class="hover:text-red-500 active:text-red-500" href=`/proposals/${number}/review/${id}/edit`) Edit this review
       div.float-right
         a.text-blue-500(class="hover:text-red-500 active:text-red-500" href=`/proposals/${number}/reviews`) See other reviews for this talk
