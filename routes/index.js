@@ -128,16 +128,17 @@ function computeAverages(talks, cb) {
   cb(null, talks)
 }
 
+function orderDesc(a, b) { return (a.average < b.average) ? 1 : -1 }
+
 function orderForDisplay(talks, cb) {
-  var discarded = talks.filter(t => t.discardVotes >= 2)
+  var discarded = talks.filter(t => t.discardVotes >= 2).sort(orderDesc)
   var undiscarded = talks.filter(t => t.discardVotes < 2)
 
-  var fullyRated = undiscarded.filter(t => t.ratings.length >= 3)
-  var sortedRated = fullyRated.sort((a,b) => (a.average < b.average) ? 1 : -1)
+  var fullyRated = undiscarded.filter(t => t.ratings.length >= 3).sort(orderDesc)
 
-  var partialRated = undiscarded.filter(t => t.ratings.length < 3)
+  var partialRated = undiscarded.filter(t => t.ratings.length < 3).sort(orderDesc)
 
-  var talkSegments = { sortedRated, partialRated, discarded }
+  var talkSegments = { fullyRated, partialRated, discarded }
   cb(null, talkSegments)
 }
 
@@ -147,7 +148,7 @@ router.get('/rankings', loggedIn(), function(req, res) {
 
   buildRanking("*", function(err, talks) {
     res.render('rankings', {
-      fullyRated: talks.sortedRated,
+      fullyRated: talks.fullyRated,
       partialRated: talks.partialRated,
       discarded: talks.discarded,
       user: req.user
