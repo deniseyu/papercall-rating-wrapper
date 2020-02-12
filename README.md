@@ -2,72 +2,64 @@
 
 * Off-platform manual redaction for submission content fields
 * Assigning proposals to certain reviewers
-* Hide previous ratings on a proposal
+* Hide previous ratings on a proposal by default
 * Rating aggregation to build stack-ranked list
 * Persisting review committee-only notes
 
-Data cannot be re-imported into Papercall. Unfortunately someone has to manually
-copy submission status back in :-(
+## How to use
 
-### To dos
+You will need:
 
-- [x] Connect up to a Redis server, configured with disk persistence (check
-  Heroku offering configs)
-- [x] Write script to dump contents of JSON file into Redis
-- [x] Display a Redis entry at `GET /proposals/:id`
-  - [x] Show Title, Abstract, Long Description, Notes for Committee prominently;
-  - [ ] Hide everything else like travel support under JS pointy clicky fold
-- [x] Update a proposal's Title, Abstract, Long Description, or Notes For
-  Committee at `POST /proposals/:id`
-- [x] Display list of all proposals by title at `GET /proposals`
-- [ ] Indicate that a proposal has been modified with a `*` appended to its
-  title at `GET /proposals` -- descope if too annoying
-- [x] Find a Node library to handle user authentication -- (Ended up choosing Passport)
-- [x] Set up basic auth for Admin ~and Reviewer~ user types; everyone has same
-  privileges for MVP
-- [x] Add auth checks to all existing endpoints
-- [x] Create Review model:
-    - Reviewer
-    - Proposal
-    - Rating (1-5)
-    - Discard (Bool)
-    - Internal Notes (string)
-- [x] Add ability to add a review, at `POST /proposals/:id/review`
-- [x] Persist reviews in Redis only
-- [ ] ~Compute running average on a Proposal, add to Proposal model, update every time a Review is added/updated/deleted~ Descoping this, because it's easier and more maintainable to write a query than to maintain a running average
-- [x] Edit a review
-- [x] Delete a review
-- [ ] ~Mark a proposal as `Rejected` if it receives N number of `Discard` votes~ Going to descope for now; a low average rating is sufficient to show rejection, for MVP
-  (start with hard-coding to 2) 
-- [x] Display all reviews for a proposal at `GET /proposals/:id/reviews`
-- [x] Add ability for Admin to assign proposals to certain Reviewers
-- [x] Don't let the same person review a talk twice
-- [x] A logged-in reviewer should see a visual separation at `GET /` so that proposals assigned to them 
-      to review are at the top, and other proposals are below
-- [x] Add visual separation between proposals that have been reviewed, and
-  proposals pending review, on `GET /`
-- [x] ~Randomize the order in which assigned reviews show up on the dashboard~
-  Redis fetching is weird and random enough
-- [ ] Build an Admin view of the state of all proposals:
-    - Completely rated proposals ordered from highest to lowest average score
-    - Discarded proposals visually separated
-    - Proposals pending reviews visually separated, and names of assigned Reviewers
-    - Some visual indication of proposals with large deltas between reviews
-      ("Controversial"?)
-    - Dotted line to show cut-off point for top N proposals (start with
-      hard-coding 25)
-- [ ] Add validation for required fields for reviews
-- [ ] Do some CSS...
+* Node.js and NPM
+* Ruby if you want to generate submissions
+* Redis running locally with default configs
 
-#### MVP notes
+To run:
 
-* Users should only have one role type. We can create multiple user accounts and
-  give people the credentials if they need to swap between Admin and Reviewer
-* Discard threshold and cut-off point should be configurable eventually
-* Set up Heroku Redis backups for every 1h during Feb 20-27
+```
+npm install
+npm start
+```
 
+The app will start on port 3000 by default.
 
-#### Stuff I should probably do later
+#### Running on Heroku
 
-* Change Redis data model from string to hash for proposals and reviews
-* Memoize expensive Redis queries
+You can deploy this to Heroku easily! You will need to provision a Redis add-on.
+This app is currently hard-coded to read the configs of the `Redis To Go`
+add-on.
+
+Run `git push heroku master` after initializing a Heroku
+project and provisioning the add-on.
+
+### Users
+
+In the interest of rapid prototyping, this app just uses basic auth via
+PassportJS. To configure users, create a JSON file called `users.json` in the
+root directory, structured like `example-user.json`.
+
+### Seeding Proposals
+
+You can use the pre-generated proposals in `scripts/submissions.json`, or
+generate your own using the Faker gem. An example is in `scripts/make_fakes.rb`.
+
+Use `seed-proposals.sh` to send all the proposals to an API endpoint that writes
+directly into Redis.
+
+### Creating Assignments
+
+You can assign certain users to review certain talks. I will script this later,
+but for now you can use curl, Postman, HTTParty, etc. to send the following API
+request:
+
+```
+POST "http://localhost:3000/assign/#{user}/#{talkID}"
+```
+
+An example of how to programmatically do this is in
+`scripts/make_assignments.rb`.
+
+### This project is a WIP
+
+Progress is being tracked in TODO.md. If you decide to try this out, feel free
+to open issue or send PRs!
