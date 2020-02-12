@@ -143,14 +143,29 @@ function orderForDisplay(talks, cb) {
 }
 
 router.get('/rankings', loggedIn(), function(req, res) {
+  function didIDoMyHomework(talks, cb) {
+    redis.multi()
+      .lrange(`assign:${req.user.username}`, 0, 1000)
+      .lrange(`complete:${req.user.username}`, 0, 1000)
+      .exec(function(err, replies) {
+      var assigned = replies[0]
+      var completed = replies[1]
+      var homeworkDone = assigned.filter(t => completed.includes(t)).length == assigned.length
+
+      talks.homeworkDone = homeworkDone
+      cb(null, talks)
+    })
+  }
+
   memoizedKeys = null // do a fresh pull!
-  var buildRanking = async.compose(orderForDisplay, computeAverages, addRatings, buildTalksMap, getAllKeys)
+  var buildRanking = async.compose(didIDoMyHomework, orderForDisplay, computeAverages, addRatings, buildTalksMap, getAllKeys)
 
   buildRanking("*", function(err, talks) {
     res.render('rankings', {
       fullyRated: talks.fullyRated,
       partialRated: talks.partialRated,
       discarded: talks.discarded,
+      homeworkDone: talks.homeworkDone,
       user: req.user
     })
   })
