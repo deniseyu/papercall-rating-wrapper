@@ -9,17 +9,22 @@ var loggedIn = require('connect-ensure-login').ensureLoggedIn
 
 router.get('/:key', loggedIn(), function(req, res) {
   var key = req.params.key
+  var message = req.query.validation == 'failed' ? 'Review and Score are required fields' : null
+
   redis.get(key, function(err, reply) {
     var proposal = JSON.parse(reply)
     if (reply === null) {
       return res.send(`No proposal with ID ${key} exists!`)
     }
 
-    res.render('talk', {
-      number: key,
-      proposal: proposal,
-      user: req.user
-    });
+    redis.lrange(`complete:${req.user.username}`, 0, 1000, function(err, reply) {
+      resObj = { number: key, proposal: proposal, user: req.user, message: message }
+      if (reply.includes(key)) {
+        resObj.completed = true
+      }
+
+      res.render('talk', resObj);
+    })
   });
 })
 
@@ -53,6 +58,11 @@ router.post('/:key', loggedIn(), function(req, res) {
 })
 
 router.post('/:key/review', loggedIn(), function(req, res) {
+  // worst validation ever written
+  if (req.body.review.length == 0 || req.body.score == null) {
+    return res.redirect(`/proposals/${req.params.key}?validation=failed`)
+  }
+
   var talkID = req.params.key
   // don't really care about review order; just that they can be named in
   // probably non-clashing way
