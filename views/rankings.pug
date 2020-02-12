@@ -1,0 +1,37 @@
+extends layout
+
+block content
+  div.bg-white.shadow-lg.rounded.p-6.mb-6
+    h1.text-xl Stack Ranking of All Proposals
+  div.bg-white.shadow-lg.rounded.p-6.mb-6
+    h3.text-lg Fully Rated
+    i.text-sm Talks are fully rated when they've received at least 3 reviews.
+    if fullyRated.length == 0
+      p No talks fully rated yet.
+    ol
+    for talk in fullyRated
+      li.border.list-decimal.p-4.my-2
+        a.text-blue-500(class="hover:text-red-500 active:text-red-500" href=`/proposals/${talk.id}/reviews`)
+          span #{talk.title} (##{talk.id})
+        span.float-right Score: #{talk.average} (From #{talk.ratings.length} reviews)
+  div.bg-white.shadow-lg.rounded.p-6.mb-6
+    h3.text-lg Partially Rated
+    if partialRated.length == 0
+      p All talks have been rated or discarded!
+    ol
+    for talk in partialRated
+      li.border.list-none.p-4.my-2
+        a.text-blue-500(class="hover:text-red-500 active:text-red-500" href=`/proposals/${talk.id}/reviews`)
+          span #{talk.title} (##{talk.id})
+        span.float-right Score: #{talk.average} (From #{talk.ratings.length} reviews)
+  div.bg-white.shadow-lg.rounded.p-6.mb-6
+    h3.text-lg Discarded
+    i.text-sm Talks are discarded when two reviewers have voted to discard.
+    if discarded.length == 0
+      p No talks have been discarded!
+    ol
+    for talk in discarded
+      li.border.list-none.p-4.my-2
+        a.text-blue-500(class="hover:text-red-500 active:text-red-500" href=`/proposals/${talk.id}/reviews`)
+          span #{talk.title} (##{talk.id})
+        span.float-right Score: #{talk.average} (From #{talk.ratings.length} reviews)

@@ -66,6 +66,95 @@ router.get('/', loggedIn(), function(req, res) {
   })
 })
 
+function buildTalksMap(keys, cb) {
+  var talkIDs = keys.filter(key => !key.includes(':')) // for now ':' denotes a rating
+
+  redis.mget(talkIDs, function(err, reply) {
+    var talks = reply.map(r => JSON.parse(r)).map((talk, i) => {
+      return {
+        id: talkIDs[i],
+        title: talk.title,
+        ratings: [],
+        discardVotes: 0,
+        submitter: {
+          name: talk.name,
+          email: talk.email,
+          organization: talk.organization,
+          bio: talk.bio,
+          twitter: talk.twitter,
+          location: talk.location
+        }
+      }
+    })
+    cb(null, talks)
+  })
+}
+
+function addRatings(talks, cb) {
+  // todo: handle this error better
+  if (memoizedKeys == null || memoizedKeys.length == 0) { return cb(null, talks) }
+
+  var ratings = memoizedKeys.filter(k => {
+    return k.includes(':') && k.split(':')[0] != 'assign' && k.split(':')[0] !== 'complete'
+  })
+  redis.mget(ratings, function(err, reply) {
+    console.log('ratings from reids ===', reply)
+    if (reply == null || reply.length == 0) { return cb(null, talks) }
+
+    reply.map(r => JSON.parse(r)).forEach(rating => {
+      var talk = talks.find(talk => talk.id == rating.proposal)
+      talk.ratings.push(rating.score) // this is so dirty... why pointers by default, JS, why
+
+      if (rating.discard == 'on') {
+        talk.discardVotes++
+      }
+    })
+    cb(null, talks)
+  })
+}
+
+function computeAverages(talks, cb) {
+  talks.map(talk => {
+    if (talk.ratings.length == 0) {
+      talk.average = 0
+      return talk
+    }
+
+    var sum = talk.ratings.map(r => parseInt(r)).reduce((a,b) => a+b)
+    var average = (sum / talk.ratings.length).toFixed(6)
+    talk.average = average
+    return talk
+  })
+  cb(null, talks)
+}
+
+function orderForDisplay(talks, cb) {
+  var discarded = talks.filter(t => t.discardVotes >= 2)
+  var undiscarded = talks.filter(t => t.discardVotes < 2)
+
+  var fullyRated = undiscarded.filter(t => t.ratings.length >= 3)
+  var sortedRated = fullyRated.sort((a,b) => (a.average < b.average) ? 1 : -1)
+
+  var partialRated = undiscarded.filter(t => t.ratings.length < 3)
+
+  var talkSegments = { sortedRated, partialRated, discarded }
+  cb(null, talkSegments)
+}
+
+router.get('/rankings', loggedIn(), function(req, res) {
+  memoizedKeys = null // do a fresh pull!
+  var buildRanking = async.compose(orderForDisplay, computeAverages, addRatings, buildTalksMap, getAllKeys)
+
+  buildRanking("*", function(err, talks) {
+    res.render('rankings', {
+      fullyRated: talks.sortedRated,
+      partialRated: talks.partialRated,
+      discarded: talks.discarded,
+      user: req.user
+    })
+  })
+})
+
 router.post('/assign/:user/:talkID', function(req, res) {
   var key = `assign:${req.params.user}`
   redis.rpush(key, req.params.talkID, function(err, reply) {
