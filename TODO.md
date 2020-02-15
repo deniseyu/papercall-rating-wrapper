@@ -61,6 +61,7 @@
 - [ ] Clean up route logic
 - [ ] Maybe split out some duplicated views into reusable components
 - [ ] Implement that pattern where response object is pre-seeded with user
+- [ ] Add authentication to seeding endpoints
 
 #### MVP notes
 
