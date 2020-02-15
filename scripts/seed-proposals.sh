@@ -12,5 +12,4 @@ for i in $(seq -w 1 $proposals_count); do
     -X POST \
     -d "$proposal" \
     http://localhost:3000/seed/$i
-    # https://hidden-falls-42394.herokuapp.com/seed/$i
 done

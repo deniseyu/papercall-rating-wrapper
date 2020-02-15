@@ -15,6 +15,15 @@ block content
           a.text-blue-500(class="hover:text-red-500 active:text-red-500" href=`/proposals/${talk.id}/reviews`)
             span #{talk.title} (##{talk.id})
           span.float-right Score: #{talk.average} (From #{talk.ratings.length} reviews)
+          div.m-3
+          if talk.submitter.name
+            div.ml-6.text-sm.text-gray-600 Submitted by: #{talk.submitter.name}
+          if talk.submitter.email
+            div.ml-6.text-sm.text-gray-600 Email: #{talk.submitter.email}
+          if talk.submitter.organization
+            div.ml-6.text-sm.text-gray-600 Organization: #{talk.submitter.organization}
+          if talk.submitter.location
+            div.ml-6.text-sm.text-gray-600 Location: #{talk.submitter.location}
     div.bg-white.shadow-lg.rounded.p-6.mb-6
       h3.text-lg Partially Rated
       if partialRated.length == 0
@@ -25,6 +34,15 @@ block content
           a.text-blue-500(class="hover:text-red-500 active:text-red-500" href=`/proposals/${talk.id}/reviews`)
             span #{talk.title} (##{talk.id})
           span.float-right Score: #{talk.average} (From #{talk.ratings.length} reviews)
+          div.m-3
+          if talk.submitter.name
+            div.ml-6.text-sm.text-gray-600 Submitted by: #{talk.submitter.name}
+          if talk.submitter.email
+            div.ml-6.text-sm.text-gray-600 Email: #{talk.submitter.email}
+          if talk.submitter.organization
+            div.ml-6.text-sm.text-gray-600 Organization: #{talk.submitter.organization}
+          if talk.submitter.location
+            div.ml-6.text-sm.text-gray-600 Location: #{talk.submitter.location}
     div.bg-white.shadow-lg.rounded.p-6.mb-6
       h3.text-lg Discarded
       i.text-sm Talks are discarded when two reviewers have voted to discard.
@@ -36,6 +54,15 @@ block content
           a.text-blue-500(class="hover:text-red-500 active:text-red-500" href=`/proposals/${talk.id}/reviews`)
             span #{talk.title} (##{talk.id})
           span.float-right Score: #{talk.average} (From #{talk.ratings.length} reviews)
+          div.m-3
+          if talk.submitter.name
+            div.ml-6.text-sm.text-gray-600 Submitted by: #{talk.submitter.name}
+          if talk.submitter.email
+            div.ml-6.text-sm.text-gray-600 Email: #{talk.submitter.email}
+          if talk.submitter.organization
+            div.ml-6.text-sm.text-gray-600 Organization: #{talk.submitter.organization}
+          if talk.submitter.location
+            div.ml-6.text-sm.text-gray-600 Location: #{talk.submitter.location}
   else
     div.bg-white.shadow-lg.rounded.p-6.mb-6
       h3 You still have talks to review! You will be able to see rankings when all your reviews are in.
