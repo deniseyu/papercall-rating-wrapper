@@ -10,9 +10,12 @@ block content
 
   div.bg-white.shadow-lg.rounded.p-6.mb-6
     h1.text-xl Proposal ##{number}: #{proposal.title}
-    p.my-3 Abstract: #{proposal.abstract}
-    p.my-3 Description: #{proposal.description}
-    p.my-3 Notes: #{proposal.notes}
+    p.my-3 Abstract:
+    p.font-light!= proposal.abstract.replace(/\n/g, '<br />')
+    p.my-3 Description:
+    p.font-light!= proposal.description.replace(/\n/g, '<br />')
+    p.my-3 Notes:
+    p.font-light!= proposal.notes.replace(/\n/g, '<br />')
 
   div.bg-white.shadow-lg.rounded.p-6.pb-16
     if completed
