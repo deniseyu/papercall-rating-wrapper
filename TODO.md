@@ -45,9 +45,9 @@
       ("Controversial"?)
     - Dotted line to show cut-off point for top N proposals (start with
       hard-coding 25)
-- [ ] Add validation for required fields for reviews
+- [x] Add validation for required fields for reviews
 - [x] Do some CSS...
-- [ ] Don't show 'New Review' form at bottom of `GET /proposal/:id` if a user
+- [x] Don't show 'New Review' form at bottom of `GET /proposal/:id` if a user
   has already submitted a review
 - [ ] Implement Discard logic: If a talk receives two discard votes, it should
   be removed from further assignments with visual separation
@@ -61,16 +61,18 @@
 - [ ] Clean up route logic
 - [ ] Maybe split out some duplicated views into reusable components
 - [ ] Implement that pattern where response object is pre-seeded with user
+- [ ] Add authentication to seeding and assignment endpoints
+- [ ] Check if Papercall export preserves linebreaks; if so, find NPM library to render markdown with linebreaks for proposal fields
 
 #### MVP notes
 
 * Users should only have one role type. We can create multiple user accounts and
   give people the credentials if they need to swap between Admin and Reviewer
 * Discard threshold and cut-off point should be configurable eventually
-* Set up Heroku Redis backups for every 1h during Feb 20-27
+* ~Set up Heroku Redis backups for every 1h during Feb 20-27~ Be a hacker and manually run `redis-dump` from my computer once a day
 
 
 #### Stuff I should probably do later
 
 * Change Redis data model from string to hash for proposals and reviews
-* Memoize expensive Redis queries
+* ~Memoize expensive Redis queries~ - done partially. On further exploration, `redis.keys` is the only concerning query (at a certain scale), and we actually want to do fresh pulls for things like the rankings page. It's partly implemented but can use a lot of improvement.
