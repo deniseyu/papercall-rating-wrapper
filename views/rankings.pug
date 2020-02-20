@@ -17,7 +17,7 @@ block content
         li.border.list-none.p-4.my-2
           a.text-blue-500(class="hover:text-red-500 active:text-red-500" href=`/proposals/${talk.id}/reviews`)
             span #{talk.title} (##{talk.id})
-          span.float-right Score: #{talk.average} (From #{talk.ratings.length} reviews)
+          span.float-right Score temporarily hidden (#{talk.ratings.length} reviews)
           div.m-3
           if talk.submitter.name
             div.ml-6.text-sm.text-gray-600 Submitted by: #{talk.submitter.name}
@@ -36,7 +36,7 @@ block content
         li.border.list-none.p-4.my-2
           a.text-blue-500(class="hover:text-red-500 active:text-red-500" href=`/proposals/${talk.id}/reviews`)
             span #{talk.title} (##{talk.id})
-          span.float-right Score: #{talk.average} (From #{talk.ratings.length} reviews)
+          span.float-right Score temporarily hidden (#{talk.ratings.length} reviews)
           br
           span.float-right
             a.text-blue-500(class="hover:text-red-500 active:text-red-500" href=`/proposals/${talk.id}`) Add your review
