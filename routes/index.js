@@ -48,7 +48,13 @@ router.get('/', loggedIn(), function(req, res) {
   function pendingReview(talksResult, cb) {
     redis.lrange(`complete:${req.user.username}`, 0, 1000, function(err, reply) {
       talksResult.pending = talksResult.mine.filter(t => !reply.includes(t.id))
-      talksResult.completed = talksResult.mine.filter(t => reply.includes(t.id))
+
+      var otherCompleted = talksResult.notMine.filter(t => reply.includes(t.id))
+      var otherNotCompleted = talksResult.notMine.filter(t => !reply.includes(t.id))
+      var assignedCompleted = talksResult.completed = talksResult.mine.filter(t => reply.includes(t.id))
+
+      talksResult.notMine = otherNotCompleted
+      talksResult.completed = otherCompleted.concat(assignedCompleted)
       cb(null, talksResult)
     })
   }

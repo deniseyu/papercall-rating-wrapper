@@ -3,7 +3,7 @@ extends layout
 block content
   div.grid.grid-cols-2.container.mx-auto.px-4.gap-4
     div.bg-white.shadow-lg.rounded.p-6
-      div.h-16
+      div.h-8
         h3.float-left Talks I need to review
         span.mr-6.float-right Remaining: #{pending.length}
       div.float-left
@@ -18,10 +18,9 @@ block content
                 li
                   a.text-blue-500(class="hover:text-red-500 active:text-red-500" href=`/proposals/${talk.id}`) [##{talk.id}] #{talk.title}
     div.bg-white.shadow-lg.rounded.p-6
-      div.h-16
+      div.h-8
         h3.float-left Talks I have reviewed
         span.float-right.mr-6 Completed: #{completed.length}
-        i.float-left.text-sm Note: Talks you review, that aren't assigned to you, won't show up here
       div.float-left
         ul
           each talk in completed
