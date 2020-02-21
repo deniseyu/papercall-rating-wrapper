@@ -129,6 +129,12 @@ function computeAverages(talks, cb) {
     var sum = talk.ratings.map(r => parseInt(r)).reduce((a,b) => a+b)
     var average = (sum / talk.ratings.length).toFixed(6)
     talk.average = average
+
+    var variances = talk.ratings.map(r => parseInt(r)).map(r => (r - average) **2)
+    var avgVariance = variances.reduce((a,b) => a+b) / variances.length
+    var stdDev = avgVariance ** (1/2)
+    talk.stdDev = stdDev.toFixed(6)
+
     return talk
   })
   cb(null, talks)

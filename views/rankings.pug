@@ -20,6 +20,8 @@ block content
             a.text-blue-500(class="hover:text-red-500 active:text-red-500" href=`/proposals/${talk.id}/reviews`)
               span #{talk.ratings.length} Reviews
             span )
+          if talk.stdDev > 1.0
+            span.float-right 🌶
           div.m-3
           if talk.submitter.name
             div.ml-6.text-sm.text-gray-600 Submitted by: #{talk.submitter.name}
@@ -42,6 +44,8 @@ block content
             a.text-blue-500(class="hover:text-red-500 active:text-red-500" href=`/proposals/${talk.id}/reviews`)
               span #{talk.ratings.length} Reviews
             span )
+          if talk.stdDev >= 1.0
+            span.float-right 🌶
           div.m-3
           if talk.submitter.name
             div.ml-6.text-sm.text-gray-600 Submitted by: #{talk.submitter.name}
