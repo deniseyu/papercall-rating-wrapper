@@ -3,81 +3,75 @@ extends layout
 block content
   div.bg-white.shadow-lg.rounded.p-6.mb-6
     h1.text-xl Stack Ranking of All Proposals
-  if homeworkDone
-    div.bg-red-100.border-red-400.text-red-700.px-4.py-3.rounded.relative.mb-2
-      p Reviews temporarily being shown out of order. If you're still reviewing, please prioritize Partially Rated talks with a low number of ratings.
-    div.bg-white.shadow-lg.rounded.p-6.mb-6
-      h3.text-lg Fully Rated
-      i.text-sm Talks are fully rated when they've received at least 3 reviews.
-      if fullyRated.length == 0
-        p No talks fully rated yet.
-      ol
-      for talk in fullyRated
-        li.border.list-none.p-4.my-2
-          a.text-blue-500(class="hover:text-red-500 active:text-red-500" href=`/proposals/${talk.id}`)
-            span #{talk.title} (##{talk.id})
-          span.float-right Score temporarily hidden (
-            a.text-blue-500(class="hover:text-red-500 active:text-red-500" href=`/proposals/${talk.id}/reviews`)
-              span #{talk.ratings.length} Reviews
-            span )
-          if talk.stdDev > 1.0
-            span.float-right 🌶
-          div.m-3
-          if talk.submitter.name
-            div.ml-6.text-sm.text-gray-600 Submitted by: #{talk.submitter.name}
-          if talk.submitter.email
-            div.ml-6.text-sm.text-gray-600 Email: #{talk.submitter.email}
-          if talk.submitter.organization
-            div.ml-6.text-sm.text-gray-600 Organization: #{talk.submitter.organization}
-          if talk.submitter.location
-            div.ml-6.text-sm.text-gray-600 Location: #{talk.submitter.location}
-    div.bg-white.shadow-lg.rounded.p-6.mb-6
-      h3.text-lg Partially Rated
-      if partialRated.length == 0
-        p All talks have been rated or discarded!
-      ol
-      for talk in partialRated
-        li.border.list-none.p-4.my-2
-          a.text-blue-500(class="hover:text-red-500 active:text-red-500" href=`/proposals/${talk.id}`)
-            span #{talk.title} (##{talk.id})
-          span.float-right Score temporarily hidden (
-            a.text-blue-500(class="hover:text-red-500 active:text-red-500" href=`/proposals/${talk.id}/reviews`)
-              span #{talk.ratings.length} Reviews
-            span )
-          if talk.stdDev >= 1.0
-            span.float-right 🌶
-          div.m-3
-          if talk.submitter.name
-            div.ml-6.text-sm.text-gray-600 Submitted by: #{talk.submitter.name}
-          if talk.submitter.email
-            div.ml-6.text-sm.text-gray-600 Email: #{talk.submitter.email}
-          if talk.submitter.organization
-            div.ml-6.text-sm.text-gray-600 Organization: #{talk.submitter.organization}
-          if talk.submitter.location
-            div.ml-6.text-sm.text-gray-600 Location: #{talk.submitter.location}
-    div.bg-white.shadow-lg.rounded.p-6.mb-6
-      h3.text-lg Discarded
-      i.text-sm Talks are discarded when two reviewers have voted to discard.
-      if discarded.length == 0
-        p No talks have been discarded!
-      ol
-      for talk in discarded
-        li.border.list-none.p-4.my-2
-          a.text-blue-500(class="hover:text-red-500 active:text-red-500" href=`/proposals/${talk.id}`)
-            span #{talk.title} (##{talk.id})
-          span.float-right Score temporarily hidden (
-            a.text-blue-500(class="hover:text-red-500 active:text-red-500" href=`/proposals/${talk.id}/reviews`)
-              span #{talk.ratings.length} Reviews
-            span )
-          div.m-3
-          if talk.submitter.name
-            div.ml-6.text-sm.text-gray-600 Submitted by: #{talk.submitter.name}
-          if talk.submitter.email
-            div.ml-6.text-sm.text-gray-600 Email: #{talk.submitter.email}
-          if talk.submitter.organization
-            div.ml-6.text-sm.text-gray-600 Organization: #{talk.submitter.organization}
-          if talk.submitter.location
-            div.ml-6.text-sm.text-gray-600 Location: #{talk.submitter.location}
-  else
-    div.bg-white.shadow-lg.rounded.p-6.mb-6
-      h3 You still have talks to review! You will be able to see rankings when all your reviews are in.
+  div.bg-white.shadow-lg.rounded.p-6.mb-6
+    h3.text-lg Fully Rated
+    i.text-sm Talks are fully rated when they've received at least 3 reviews.
+    if fullyRated.length == 0
+      p No talks fully rated yet.
+    ol
+    for talk in fullyRated
+      li.border.list-decimal.p-4.my-2
+        a.text-blue-500(class="hover:text-red-500 active:text-red-500" href=`/proposals/${talk.id}`)
+          span #{talk.title} (##{talk.id})
+        span.float-right Score: #{talk.average} (
+          a.text-blue-500(class="hover:text-red-500 active:text-red-500" href=`/proposals/${talk.id}/reviews`)
+            span #{talk.ratings.length} Reviews
+          span )
+        if talk.stdDev > 1.0
+          span.float-right 🌶
+        div.m-3
+        if talk.submitter.name
+          div.ml-6.text-sm.text-gray-600 Submitted by: #{talk.submitter.name}
+        if talk.submitter.email
+          div.ml-6.text-sm.text-gray-600 Email: #{talk.submitter.email}
+        if talk.submitter.organization
+          div.ml-6.text-sm.text-gray-600 Organization: #{talk.submitter.organization}
+        if talk.submitter.location
+          div.ml-6.text-sm.text-gray-600 Location: #{talk.submitter.location}
+  div.bg-white.shadow-lg.rounded.p-6.mb-6
+    h3.text-lg Partially Rated
+    if partialRated.length == 0
+      p All talks have been rated or discarded! Good work, team!
+    ol
+    for talk in partialRated
+      li.border.list-none.p-4.my-2
+        a.text-blue-500(class="hover:text-red-500 active:text-red-500" href=`/proposals/${talk.id}`)
+          span #{talk.title} (##{talk.id})
+        span.float-right Score: #{talk.average} (
+          a.text-blue-500(class="hover:text-red-500 active:text-red-500" href=`/proposals/${talk.id}/reviews`)
+            span #{talk.ratings.length} Reviews
+          span )
+        if talk.stdDev >= 1.0
+          span.float-right 🌶
+        div.m-3
+        if talk.submitter.name
+          div.ml-6.text-sm.text-gray-600 Submitted by: #{talk.submitter.name}
+        if talk.submitter.email
+          div.ml-6.text-sm.text-gray-600 Email: #{talk.submitter.email}
+        if talk.submitter.organization
+          div.ml-6.text-sm.text-gray-600 Organization: #{talk.submitter.organization}
+        if talk.submitter.location
+          div.ml-6.text-sm.text-gray-600 Location: #{talk.submitter.location}
+  div.bg-white.shadow-lg.rounded.p-6.mb-6
+    h3.text-lg Discarded
+    i.text-sm Talks are discarded when two reviewers have voted to discard.
+    if discarded.length == 0
+      p No talks have been discarded!
+    ol
+    for talk in discarded
+      li.border.list-none.p-4.my-2
+        a.text-blue-500(class="hover:text-red-500 active:text-red-500" href=`/proposals/${talk.id}`)
+          span #{talk.title} (##{talk.id})
+        span.float-right Score: #{talk.average} (
+          a.text-blue-500(class="hover:text-red-500 active:text-red-500" href=`/proposals/${talk.id}/reviews`)
+            span #{talk.ratings.length} Reviews
+          span )
+        div.m-3
+        if talk.submitter.name
+          div.ml-6.text-sm.text-gray-600 Submitted by: #{talk.submitter.name}
+        if talk.submitter.email
+          div.ml-6.text-sm.text-gray-600 Email: #{talk.submitter.email}
+        if talk.submitter.organization
+          div.ml-6.text-sm.text-gray-600 Organization: #{talk.submitter.organization}
+        if talk.submitter.location
+          div.ml-6.text-sm.text-gray-600 Location: #{talk.submitter.location}
