@@ -143,12 +143,12 @@ function computeAverages(talks, cb) {
 function orderDesc(a, b) { return (a.average < b.average) ? 1 : -1 }
 
 function orderForDisplay(talks, cb) {
-  var discarded = talks.filter(t => t.discardVotes >= 2) //.sort(orderDesc)
+  var discarded = talks.filter(t => t.discardVotes >= 2).sort(orderDesc)
   var undiscarded = talks.filter(t => t.discardVotes < 2)
 
-  var fullyRated = undiscarded.filter(t => t.ratings.length >= 3) //.sort(orderDesc)
+  var fullyRated = undiscarded.filter(t => t.ratings.length >= 3).sort(orderDesc)
 
-  var partialRated = undiscarded.filter(t => t.ratings.length < 3).sort((a,b) => (a.ratings.length > b.ratings.length) ? 1 : -1) //.sort(orderDesc)
+  var partialRated = undiscarded.filter(t => t.ratings.length < 3).sort((a,b) => (a.ratings.length > b.ratings.length) ? 1 : -1).sort(orderDesc)
 
   var talkSegments = { fullyRated, partialRated, discarded }
   cb(null, talkSegments)
